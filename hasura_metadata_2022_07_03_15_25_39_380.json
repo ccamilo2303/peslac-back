@@ -1,0 +1,161 @@
+{
+  "resource_version": 83,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "peslac",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "schema": "public",
+              "name": "clientes"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "condiciones_pago"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "config_descuentos"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "configuracion_paquetes"
+            },
+            "object_relationships": [
+              {
+                "name": "paquete",
+                "using": {
+                  "foreign_key_constraint_on": "id_paquete"
+                }
+              },
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "historial_devoluciones_salidas_productos"
+            },
+            "object_relationships": [
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "lineas_producto"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "metodos_pago"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "paquetes"
+            },
+            "object_relationships": [
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "configuracion_paquetes",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_paquete",
+                    "table": {
+                      "schema": "public",
+                      "name": "configuracion_paquetes"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "productos"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "proveedores"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipo_operacion"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_cantidad"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_impuesto"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_usuarios"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "usuarios"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "ventas"
+            }
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "use_prepared_statements": false,
+            "database_url": "postgres://postgres:postgrespassword@postgres:5432/peslac",
+            "isolation_level": "read-committed"
+          }
+        }
+      }
+    ]
+  }
+}

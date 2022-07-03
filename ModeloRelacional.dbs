@@ -2,6 +2,29 @@
 <project name="PostgreSQL" id="Project-b80" database="PostgreSQL" >
 	<schema name="public" >
 		<comment><![CDATA[standard public schema]]></comment>
+		<table name="clientes" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombres" type="varchar" length="50" jt="12" />
+			<column name="apellidos" type="varchar" length="50" jt="12" />
+			<column name="cedula" type="varchar" length="15" jt="12" />
+			<column name="celular" type="varchar" length="15" jt="12" />
+			<column name="ciudad" type="varchar" length="50" jt="12" />
+			<column name="direccion" type="varchar" length="100" jt="12" />
+			<column name="id_lista_precios" type="integer" jt="4" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_clientes" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="condiciones_pago" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_condiciones_pago" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
 		<table name="config_descuentos" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
 			<column name="id_producto" type="integer" jt="4" />
@@ -30,12 +53,24 @@
 				<fk_column name="id_paquete" pk="id" />
 			</fk>
 		</table>
-		<table name="grupos_productos" >
+		<table name="historial_devoluciones_salidas_productos" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
-			<column name="nombre" type="varchar" length="50" jt="12" />
-			<index name="pk_grupos_productos" unique="PRIMARY_KEY" >
+			<column name="id_producto" type="integer" jt="4" />
+			<column name="cantidad" type="integer" jt="4" />
+			<column name="id_tipo_operacion" type="integer" jt="4" />
+			<column name="comentario" type="varchar" length="200" jt="12" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_historial_devoluciones_salidas_productos" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+			<fk name="fk_historial_devoluciones_salidas_productos_productos" to_schema="public" to_table="productos" >
+				<fk_column name="id_producto" pk="id" />
+			</fk>
+			<fk name="fk_historial_devoluciones_salidas_productos_tipo_operacion" to_schema="public" to_table="tipo_operacion" >
+				<fk_column name="id_tipo_operacion" pk="id" />
+			</fk>
 		</table>
 		<table name="lineas_producto" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
@@ -44,6 +79,13 @@
 				<defo><![CDATA[CURRENT_DATE]]></defo>
 			</column>
 			<index name="pk_lineas_producto" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="metodos_pago" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_metodos_pago" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
@@ -106,10 +148,20 @@
 			<column name="nit" type="varchar" length="20" jt="12" />
 			<column name="celular" type="varchar" length="15" jt="12" />
 			<column name="cuenta" type="varchar" length="25" jt="12" />
+			<column name="banco" type="varchar" length="100" jt="12" />
+			<column name="tipo_cuenta" type="varchar" length="50" jt="12" />
 			<column name="direccion" type="varchar" length="50" jt="12" />
 			<column name="correo" type="varchar" length="60" jt="12" />
 			<column name="telefono" type="varchar" length="15" jt="12" />
 			<index name="pk_proveedores" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="tipo_operacion" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<column name="accion" type="varchar" length="1" jt="12" />
+			<index name="pk_tipo_operacion" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
@@ -162,20 +214,52 @@
 				<fk_column name="id_tipo_usuario" pk="id" />
 			</fk>
 		</table>
+		<table name="ventas" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_usuario" type="integer" jt="4" />
+			<column name="consecutivo" type="integer" jt="4" mandatory="y" />
+			<column name="id_cliente" type="integer" jt="4" />
+			<column name="id_metodo_pago" type="integer" jt="4" />
+			<column name="id_condicion_pago" type="integer" jt="4" />
+			<column name="id_tipo_operacion" type="integer" jt="4" />
+			<index name="pk_ventas" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_ventas_clientes" to_schema="public" to_table="clientes" >
+				<fk_column name="id_cliente" pk="id" />
+			</fk>
+			<fk name="fk_ventas_usuarios" to_schema="public" to_table="usuarios" >
+				<fk_column name="id_usuario" pk="id" />
+			</fk>
+			<fk name="fk_ventas_metodos_pago" to_schema="public" to_table="metodos_pago" >
+				<fk_column name="id_metodo_pago" pk="id" />
+			</fk>
+			<fk name="fk_ventas_condiciones_pago" to_schema="public" to_table="condiciones_pago" >
+				<fk_column name="id_condicion_pago" pk="id" />
+			</fk>
+			<fk name="fk_ventas_tipo_operacion" to_schema="public" to_table="tipo_operacion" >
+				<fk_column name="id_tipo_operacion" pk="id" />
+			</fk>
+		</table>
 	</schema>
 	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.4.0.jar" driver_desc="Standard" host="localhost" port="5432" instance="peslac" user="postgres" passwd="cG9zdGdyZXNwYXNzd29yZA==" />
 	<layout name="Main Layout" id="Layout-149a" show_relation="columns" >
+		<entity schema="public" name="clientes" color="C1D8EE" x="1152" y="304" />
+		<entity schema="public" name="condiciones_pago" color="C1D8EE" x="1216" y="720" />
 		<entity schema="public" name="config_descuentos" color="C1D8EE" x="976" y="672" />
 		<entity schema="public" name="configuracion_paquetes" color="C1D8EE" x="112" y="784" />
-		<entity schema="public" name="grupos_productos" color="C1D8EE" x="880" y="448" />
+		<entity schema="public" name="historial_devoluciones_salidas_productos" color="C1D8EE" x="48" y="1008" />
 		<entity schema="public" name="lineas_producto" color="C1D8EE" x="416" y="960" />
+		<entity schema="public" name="metodos_pago" color="C1D8EE" x="1120" y="576" />
 		<entity schema="public" name="paquetes" color="C1D8EE" x="48" y="640" />
 		<entity schema="public" name="productos" color="C1D8EE" x="368" y="592" />
 		<entity schema="public" name="proveedores" color="C1D8EE" x="720" y="816" />
+		<entity schema="public" name="tipo_operacion" color="C1D8EE" x="496" y="1120" />
 		<entity schema="public" name="tipos_cantidad" color="C1D8EE" x="688" y="544" />
 		<entity schema="public" name="tipos_impuesto" color="C1D8EE" x="688" y="688" />
-		<entity schema="public" name="tipos_usuarios" color="C1D8EE" x="544" y="352" />
-		<entity schema="public" name="usuarios" color="C1D8EE" x="176" y="320" />
+		<entity schema="public" name="tipos_usuarios" color="C1D8EE" x="80" y="224" />
+		<entity schema="public" name="usuarios" color="C1D8EE" x="368" y="224" />
+		<entity schema="public" name="ventas" color="C1D8EE" x="832" y="320" />
 		<callout x="96" y="48" pointer="Round" >
 			<comment><![CDATA[This is a layout - a diagram with tools. 
 Add tables to the layout by drag & drop from the project structure tree.
