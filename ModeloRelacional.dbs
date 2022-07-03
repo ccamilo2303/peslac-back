@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PostgreSQL" id="Project-b80" database="PostgreSQL" >
+	<schema name="public" >
+		<comment><![CDATA[standard public schema]]></comment>
+		<table name="config_descuentos" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_producto" type="integer" jt="4" />
+			<column name="cantidad_min" type="integer" jt="4" />
+			<column name="cantidad_max" type="integer" jt="4" />
+			<column name="descuento" type="integer" jt="4" />
+			<index name="pk_config_descuentos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_config_descuentos_productos" to_schema="public" to_table="productos" >
+				<fk_column name="id_producto" pk="id" />
+			</fk>
+		</table>
+		<table name="configuracion_paquetes" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_paquete" type="integer" jt="4" />
+			<column name="id_producto" type="integer" jt="4" />
+			<column name="cantidad" type="integer" jt="4" />
+			<index name="pk_configuracion_paquetes" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_configuracion_paquetes_productos" to_schema="public" to_table="productos" >
+				<fk_column name="id_producto" pk="id" />
+			</fk>
+			<fk name="fk_configuracion_paquetes_paquetes" to_schema="public" to_table="paquetes" >
+				<fk_column name="id_paquete" pk="id" />
+			</fk>
+		</table>
+		<table name="grupos_productos" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_grupos_productos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="lineas_producto" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_lineas_producto" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="paquetes" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_producto" type="integer" jt="4" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_paquetes" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_paquetes_productos" to_schema="public" to_table="productos" >
+				<fk_column name="id_producto" pk="id" />
+			</fk>
+		</table>
+		<table name="productos" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="60" jt="12" />
+			<column name="cantidad" type="integer" jt="4" />
+			<column name="id_tipo_cantidad" type="integer" jt="4" />
+			<column name="precio_costo" prior="precio" type="numeric" length="20" decimal="2" jt="2" />
+			<column name="id_tipo_inpuesto" type="integer" jt="4" />
+			<column name="valor_inpuesto" type="numeric" length="5" decimal="2" jt="2" />
+			<column name="precio_venta" type="numeric" length="20" decimal="2" jt="2" />
+			<column name="id_proveedor" type="integer" jt="4" />
+			<column name="descripcion" type="varchar" length="200" jt="12" />
+			<column name="id_linea" type="integer" jt="4" />
+			<column name="imagen" type="text" jt="12" />
+			<column name="codigo_barras" type="varchar" length="30" jt="12" mandatory="y" />
+			<column name="inventario_min" type="integer" jt="4" />
+			<column name="habilitado" prior="habilitad" type="integer" jt="4" />
+			<column name="id_usuario_registro" type="integer" jt="4" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_productos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_productos_tipos_impuesto" to_schema="public" to_table="tipos_impuesto" >
+				<fk_column name="id_tipo_inpuesto" pk="id" />
+			</fk>
+			<fk name="fk_productos_proveedores" to_schema="public" to_table="proveedores" >
+				<fk_column name="id_proveedor" pk="id" />
+			</fk>
+			<fk name="fk_productos_lineas_producto" to_schema="public" to_table="lineas_producto" >
+				<fk_column name="id_linea" pk="id" />
+			</fk>
+			<fk name="fk_productos_usuarios" to_schema="public" to_table="usuarios" >
+				<fk_column name="id_usuario_registro" pk="id" />
+			</fk>
+			<fk name="fk_productos_tipos_cantidad" to_schema="public" to_table="tipos_cantidad" >
+				<fk_column name="id_tipo_cantidad" pk="id" />
+			</fk>
+		</table>
+		<table name="proveedores" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="razon_social" type="varchar" length="100" jt="12" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<column name="nit" type="varchar" length="20" jt="12" />
+			<column name="celular" type="varchar" length="15" jt="12" />
+			<column name="cuenta" type="varchar" length="25" jt="12" />
+			<column name="direccion" type="varchar" length="50" jt="12" />
+			<column name="correo" type="varchar" length="60" jt="12" />
+			<column name="telefono" type="varchar" length="15" jt="12" />
+			<index name="pk_proveedores" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="tipos_cantidad" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_tipos_cantidad" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="tipos_impuesto" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="30" jt="12" />
+			<index name="pk_tipos_c" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="tipos_usuarios" >
+			<column name="id" type="bigint" jt="-5" mandatory="y" >
+				<comment><![CDATA[Identificador]]></comment>
+			</column>
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_tipos_usuarios" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="usuarios" spec="" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombres" type="varchar" length="50" jt="12" />
+			<column name="apellidos" type="varchar" length="50" jt="12" />
+			<column name="nit" type="varchar" length="20" jt="12" />
+			<column name="ciudad" type="varchar" length="50" jt="12" />
+			<column name="estacion" type="varchar" length="100" jt="12" />
+			<column name="correo" type="varchar" length="50" jt="12" />
+			<column name="direccion" type="varchar" length="50" jt="12" />
+			<column name="telefono" type="varchar" length="15" jt="12" />
+			<column name="usuario" type="varchar" length="10" jt="12" mandatory="y" />
+			<column name="clave" type="varchar" length="50" jt="12" />
+			<column name="id_tipo_usuario" type="bigint" jt="-5" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_usuarios" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_usuarios_id_tipo_usuario" unique="UNIQUE_KEY" >
+				<column name="id_tipo_usuario" />
+			</index>
+			<fk name="fk_usuarios_tipos_usuarios" to_schema="public" to_table="tipos_usuarios" >
+				<fk_column name="id_tipo_usuario" pk="id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.4.0.jar" driver_desc="Standard" host="localhost" port="5432" instance="peslac" user="postgres" passwd="cG9zdGdyZXNwYXNzd29yZA==" />
+	<layout name="Main Layout" id="Layout-149a" show_relation="columns" >
+		<entity schema="public" name="config_descuentos" color="C1D8EE" x="976" y="672" />
+		<entity schema="public" name="configuracion_paquetes" color="C1D8EE" x="112" y="784" />
+		<entity schema="public" name="grupos_productos" color="C1D8EE" x="880" y="448" />
+		<entity schema="public" name="lineas_producto" color="C1D8EE" x="416" y="960" />
+		<entity schema="public" name="paquetes" color="C1D8EE" x="48" y="640" />
+		<entity schema="public" name="productos" color="C1D8EE" x="368" y="592" />
+		<entity schema="public" name="proveedores" color="C1D8EE" x="720" y="816" />
+		<entity schema="public" name="tipos_cantidad" color="C1D8EE" x="688" y="544" />
+		<entity schema="public" name="tipos_impuesto" color="C1D8EE" x="688" y="688" />
+		<entity schema="public" name="tipos_usuarios" color="C1D8EE" x="544" y="352" />
+		<entity schema="public" name="usuarios" color="C1D8EE" x="176" y="320" />
+		<callout x="96" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools. 
+Add tables to the layout by drag & drop from the project structure tree.
+For a better understanding of the schema, create multiple layouts with the same or different tables.
+Drop this callout from its context menu.]]></comment>
+		</callout>
+	</layout>
+</project>
