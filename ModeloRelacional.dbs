@@ -18,6 +18,27 @@
 				<column name="id" />
 			</index>
 		</table>
+		<table name="compras" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_orden" type="integer" jt="4" />
+			<column name="id_estado_compra" prior="estado" type="integer" jt="4" />
+			<column name="id_proveedor" type="integer" jt="4" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_compras" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_compras_ordenes" to_schema="public" to_table="ordenes" >
+				<fk_column name="id_orden" pk="id" />
+			</fk>
+			<fk name="fk_compras_estados_compra" to_schema="public" to_table="estados_compra" >
+				<fk_column name="id_estado_compra" pk="id" />
+			</fk>
+			<fk name="fk_compras_proveedores" to_schema="public" to_table="proveedores" >
+				<fk_column name="id_proveedor" pk="id" />
+			</fk>
+		</table>
 		<table name="condiciones_pago" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
 			<column name="nombre" type="varchar" length="50" jt="12" />
@@ -52,6 +73,32 @@
 			<fk name="fk_configuracion_paquetes_paquetes" to_schema="public" to_table="paquetes" >
 				<fk_column name="id_paquete" pk="id" />
 			</fk>
+		</table>
+		<table name="detalle_ordenes" prior="detalle_ventas" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_venta" type="integer" jt="4" />
+			<column name="id_producto" type="integer" jt="4" />
+			<column name="cantidad" type="integer" jt="4" />
+			<column name="total" type="numeric" length="20" decimal="2" jt="2" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_detalle_ventas" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_detalle_ventas_ventas" to_schema="public" to_table="ordenes" >
+				<fk_column name="id_venta" pk="id" />
+			</fk>
+			<fk name="fk_detalle_ventas_productos" to_schema="public" to_table="productos" >
+				<fk_column name="id_producto" pk="id" />
+			</fk>
+		</table>
+		<table name="estados_compra" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="50" jt="12" />
+			<index name="pk_estados_compra" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
 		</table>
 		<table name="historial_devoluciones_salidas_productos" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
@@ -88,6 +135,36 @@
 			<index name="pk_metodos_pago" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+		</table>
+		<table name="ordenes" prior="ventas" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_usuario" type="integer" jt="4" />
+			<column name="consecutivo" type="integer" jt="4" mandatory="y" />
+			<column name="id_cliente" type="integer" jt="4" />
+			<column name="id_metodo_pago" type="integer" jt="4" />
+			<column name="id_condicion_pago" type="integer" jt="4" />
+			<column name="id_tipo_venta" prior="id_tipo_operacion" type="integer" jt="4" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_ventas" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_ventas_clientes" to_schema="public" to_table="clientes" >
+				<fk_column name="id_cliente" pk="id" />
+			</fk>
+			<fk name="fk_ventas_usuarios" to_schema="public" to_table="usuarios" >
+				<fk_column name="id_usuario" pk="id" />
+			</fk>
+			<fk name="fk_ventas_metodos_pago" to_schema="public" to_table="metodos_pago" >
+				<fk_column name="id_metodo_pago" pk="id" />
+			</fk>
+			<fk name="fk_ventas_condiciones_pago" to_schema="public" to_table="condiciones_pago" >
+				<fk_column name="id_condicion_pago" pk="id" />
+			</fk>
+			<fk name="fk_ventas_tipo_venta" to_schema="public" to_table="tipo_venta" >
+				<fk_column name="id_tipo_venta" pk="id" />
+			</fk>
 		</table>
 		<table name="paquetes" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
@@ -165,6 +242,13 @@
 				<column name="id" />
 			</index>
 		</table>
+		<table name="tipo_venta" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nombre" type="varchar" length="20" jt="12" />
+			<index name="pk_tipo_venta" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
 		<table name="tipos_cantidad" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
 			<column name="nombre" type="varchar" length="50" jt="12" />
@@ -175,6 +259,7 @@
 		<table name="tipos_impuesto" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
 			<column name="nombre" type="varchar" length="30" jt="12" />
+			<column name="cobra_iva" type="boolean" jt="-7" />
 			<index name="pk_tipos_c" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -216,55 +301,59 @@
 		</table>
 		<table name="ventas" >
 			<column name="id" type="serial" jt="4" mandatory="y" />
-			<column name="id_usuario" type="integer" jt="4" />
-			<column name="consecutivo" type="integer" jt="4" mandatory="y" />
-			<column name="id_cliente" type="integer" jt="4" />
-			<column name="id_metodo_pago" type="integer" jt="4" />
-			<column name="id_condicion_pago" type="integer" jt="4" />
-			<column name="id_tipo_operacion" type="integer" jt="4" />
-			<index name="pk_ventas" unique="PRIMARY_KEY" >
+			<column name="id_orden" type="integer" jt="4" />
+			<column name="anulado" type="boolean" jt="-7" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_ventas_0" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
-			<fk name="fk_ventas_clientes" to_schema="public" to_table="clientes" >
-				<fk_column name="id_cliente" pk="id" />
+			<fk name="fk_ventas_ordenes" to_schema="public" to_table="ordenes" >
+				<fk_column name="id_orden" pk="id" />
 			</fk>
-			<fk name="fk_ventas_usuarios" to_schema="public" to_table="usuarios" >
-				<fk_column name="id_usuario" pk="id" />
-			</fk>
-			<fk name="fk_ventas_metodos_pago" to_schema="public" to_table="metodos_pago" >
-				<fk_column name="id_metodo_pago" pk="id" />
-			</fk>
-			<fk name="fk_ventas_condiciones_pago" to_schema="public" to_table="condiciones_pago" >
-				<fk_column name="id_condicion_pago" pk="id" />
-			</fk>
-			<fk name="fk_ventas_tipo_operacion" to_schema="public" to_table="tipo_operacion" >
-				<fk_column name="id_tipo_operacion" pk="id" />
+		</table>
+		<table name="ventas_anuladas" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_venta" type="integer" jt="4" />
+			<column name="comentario" type="varchar" length="200" jt="12" />
+			<column name="fecha_registro" type="date" jt="91" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+			</column>
+			<index name="pk_ventas_anuladas" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_ventas_anuladas_id_venta" unique="UNIQUE_KEY" >
+				<column name="id_venta" />
+			</index>
+			<fk name="fk_ventas_anuladas_ventas" to_schema="public" to_table="ventas" >
+				<fk_column name="id_venta" pk="id" />
 			</fk>
 		</table>
 	</schema>
 	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.4.0.jar" driver_desc="Standard" host="localhost" port="5432" instance="peslac" user="postgres" passwd="cG9zdGdyZXNwYXNzd29yZA==" />
 	<layout name="Main Layout" id="Layout-149a" show_relation="columns" >
-		<entity schema="public" name="clientes" color="C1D8EE" x="1152" y="304" />
-		<entity schema="public" name="condiciones_pago" color="C1D8EE" x="1216" y="720" />
-		<entity schema="public" name="config_descuentos" color="C1D8EE" x="976" y="672" />
-		<entity schema="public" name="configuracion_paquetes" color="C1D8EE" x="112" y="784" />
-		<entity schema="public" name="historial_devoluciones_salidas_productos" color="C1D8EE" x="48" y="1008" />
-		<entity schema="public" name="lineas_producto" color="C1D8EE" x="416" y="960" />
-		<entity schema="public" name="metodos_pago" color="C1D8EE" x="1120" y="576" />
-		<entity schema="public" name="paquetes" color="C1D8EE" x="48" y="640" />
-		<entity schema="public" name="productos" color="C1D8EE" x="368" y="592" />
-		<entity schema="public" name="proveedores" color="C1D8EE" x="720" y="816" />
-		<entity schema="public" name="tipo_operacion" color="C1D8EE" x="496" y="1120" />
-		<entity schema="public" name="tipos_cantidad" color="C1D8EE" x="688" y="544" />
-		<entity schema="public" name="tipos_impuesto" color="C1D8EE" x="688" y="688" />
-		<entity schema="public" name="tipos_usuarios" color="C1D8EE" x="80" y="224" />
-		<entity schema="public" name="usuarios" color="C1D8EE" x="368" y="224" />
-		<entity schema="public" name="ventas" color="C1D8EE" x="832" y="320" />
-		<callout x="96" y="48" pointer="Round" >
-			<comment><![CDATA[This is a layout - a diagram with tools. 
-Add tables to the layout by drag & drop from the project structure tree.
-For a better understanding of the schema, create multiple layouts with the same or different tables.
-Drop this callout from its context menu.]]></comment>
-		</callout>
+		<entity schema="public" name="clientes" color="C1D8EE" x="1168" y="336" />
+		<entity schema="public" name="compras" color="C1D8EE" x="432" y="176" />
+		<entity schema="public" name="condiciones_pago" color="C1D8EE" x="1232" y="752" />
+		<entity schema="public" name="config_descuentos" color="C1D8EE" x="992" y="704" />
+		<entity schema="public" name="configuracion_paquetes" color="C1D8EE" x="128" y="816" />
+		<entity schema="public" name="detalle_ordenes" color="C1D8EE" x="1072" y="192" />
+		<entity schema="public" name="estados_compra" color="C1D8EE" x="480" y="48" />
+		<entity schema="public" name="historial_devoluciones_salidas_productos" color="C1D8EE" x="64" y="1040" />
+		<entity schema="public" name="lineas_producto" color="C1D8EE" x="432" y="992" />
+		<entity schema="public" name="metodos_pago" color="C1D8EE" x="1136" y="608" />
+		<entity schema="public" name="ordenes" color="C1D8EE" x="688" y="336" />
+		<entity schema="public" name="paquetes" color="C1D8EE" x="64" y="672" />
+		<entity schema="public" name="productos" color="C1D8EE" x="384" y="624" />
+		<entity schema="public" name="proveedores" color="C1D8EE" x="736" y="848" />
+		<entity schema="public" name="tipo_operacion" color="C1D8EE" x="512" y="1152" />
+		<entity schema="public" name="tipo_venta" color="C1D8EE" x="672" y="160" />
+		<entity schema="public" name="tipos_cantidad" color="C1D8EE" x="704" y="576" />
+		<entity schema="public" name="tipos_impuesto" color="C1D8EE" x="704" y="720" />
+		<entity schema="public" name="tipos_usuarios" color="C1D8EE" x="48" y="176" />
+		<entity schema="public" name="usuarios" color="C1D8EE" x="112" y="384" />
+		<entity schema="public" name="ventas" color="C1D8EE" x="368" y="352" />
+		<entity schema="public" name="ventas_anuladas" color="C1D8EE" x="208" y="128" />
 	</layout>
 </project>
