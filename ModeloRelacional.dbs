@@ -338,7 +338,7 @@
 		<entity schema="public" name="condiciones_pago" color="C1D8EE" x="1232" y="752" />
 		<entity schema="public" name="config_descuentos" color="C1D8EE" x="992" y="704" />
 		<entity schema="public" name="configuracion_paquetes" color="C1D8EE" x="128" y="816" />
-		<entity schema="public" name="detalle_ordenes" color="C1D8EE" x="1072" y="192" />
+		<entity schema="public" name="detalle_ordenes" color="C1D8EE" x="960" y="112" />
 		<entity schema="public" name="estados_compra" color="C1D8EE" x="480" y="48" />
 		<entity schema="public" name="historial_devoluciones_salidas_productos" color="C1D8EE" x="64" y="1040" />
 		<entity schema="public" name="lineas_producto" color="C1D8EE" x="432" y="992" />
