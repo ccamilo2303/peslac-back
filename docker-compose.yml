@@ -4,9 +4,11 @@ services:
     image: postgres:12
     restart: always
     volumes:
-    - db_data:/var/lib/postgresql/data
+    - ./workflow-dump-postgres-202208022116.sql:/docker-entrypoint-initdb.d/peslac.sql
+    - ./postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: peslac
     ports:
       - "127.0.0.1:5432:5432"
   graphql-engine:
@@ -28,5 +30,6 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_METADATA_DIR: ./hasura_metadata_2022_07_17_17_44_43_123.json
 volumes:
   db_data:

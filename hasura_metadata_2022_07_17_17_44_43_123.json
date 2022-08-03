@@ -417,7 +417,7 @@
         "configuration": {
           "connection_info": {
             "use_prepared_statements": false,
-            "database_url": "postgres://postgres:postgrespassword@postgres:5432/peslac",
+            "database_url": "postgres://postgres:postgrespassword@postgres:5432/postgres",
             "isolation_level": "read-committed"
           }
         }
