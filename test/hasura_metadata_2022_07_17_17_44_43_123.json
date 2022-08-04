@@ -1,0 +1,427 @@
+{
+  "resource_version": 34,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "peslac",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "schema": "public",
+              "name": "clientes"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "compras"
+            },
+            "object_relationships": [
+              {
+                "name": "estados_compra",
+                "using": {
+                  "foreign_key_constraint_on": "id_estado_compra"
+                }
+              },
+              {
+                "name": "ordene",
+                "using": {
+                  "foreign_key_constraint_on": "id_orden"
+                }
+              },
+              {
+                "name": "proveedore",
+                "using": {
+                  "foreign_key_constraint_on": "id_proveedor"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "condiciones_pago"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "config_descuentos"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "configuracion_paquetes"
+            },
+            "object_relationships": [
+              {
+                "name": "paquete",
+                "using": {
+                  "foreign_key_constraint_on": "id_paquete"
+                }
+              },
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "detalle_lista_precios"
+            },
+            "object_relationships": [
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "detalle_ordenes"
+            },
+            "object_relationships": [
+              {
+                "name": "ordene",
+                "using": {
+                  "foreign_key_constraint_on": "id_venta"
+                }
+              },
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "detalle_transformaciones"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "estados_compra"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "historial_devoluciones_salidas_productos"
+            },
+            "object_relationships": [
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "lineas_producto"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "lista_precios"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "metodos_pago"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "ordenes"
+            },
+            "object_relationships": [
+              {
+                "name": "cliente",
+                "using": {
+                  "foreign_key_constraint_on": "id_cliente"
+                }
+              },
+              {
+                "name": "condiciones_pago",
+                "using": {
+                  "foreign_key_constraint_on": "id_condicion_pago"
+                }
+              },
+              {
+                "name": "metodos_pago",
+                "using": {
+                  "foreign_key_constraint_on": "id_metodo_pago"
+                }
+              },
+              {
+                "name": "tipo_ventum",
+                "using": {
+                  "foreign_key_constraint_on": "id_tipo_venta"
+                }
+              },
+              {
+                "name": "usuario",
+                "using": {
+                  "foreign_key_constraint_on": "id_usuario"
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "compras",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_orden",
+                    "table": {
+                      "schema": "public",
+                      "name": "compras"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "detalle_ordenes",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_venta",
+                    "table": {
+                      "schema": "public",
+                      "name": "detalle_ordenes"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "ventas",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_orden",
+                    "table": {
+                      "schema": "public",
+                      "name": "ventas"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "paquetes"
+            },
+            "object_relationships": [
+              {
+                "name": "producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_producto"
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "configuracion_paquetes",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_paquete",
+                    "table": {
+                      "schema": "public",
+                      "name": "configuracion_paquetes"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "productos"
+            },
+            "object_relationships": [
+              {
+                "name": "lineas_producto",
+                "using": {
+                  "foreign_key_constraint_on": "id_linea"
+                }
+              },
+              {
+                "name": "proveedor",
+                "using": {
+                  "foreign_key_constraint_on": "id_proveedor"
+                }
+              },
+              {
+                "name": "transformacion",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_producto_destino",
+                    "table": {
+                      "schema": "public",
+                      "name": "transformaciones"
+                    }
+                  }
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "config_descuentos",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_producto",
+                    "table": {
+                      "schema": "public",
+                      "name": "config_descuentos"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "detalle_lista_precios",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_producto",
+                    "table": {
+                      "schema": "public",
+                      "name": "detalle_lista_precios"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "paquetes",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "id_producto",
+                    "table": {
+                      "schema": "public",
+                      "name": "paquetes"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "proveedores"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipo_operacion"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipo_venta"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_cantidad"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_impuesto"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "tipos_usuarios"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "transformaciones"
+            }
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "usuarios"
+            },
+            "object_relationships": [
+              {
+                "name": "tipos_usuario",
+                "using": {
+                  "foreign_key_constraint_on": "id_tipo_usuario"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "ventas"
+            },
+            "object_relationships": [
+              {
+                "name": "ordene",
+                "using": {
+                  "foreign_key_constraint_on": "id_orden"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "ventas_anuladas"
+            },
+            "object_relationships": [
+              {
+                "name": "venta",
+                "using": {
+                  "foreign_key_constraint_on": "id_venta"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "schema": "public",
+              "name": "vis_detalle_compras"
+            }
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "use_prepared_statements": false,
+            "database_url": "postgres://postgres:postgrespassword@postgres:5432/postgres",
+            "isolation_level": "read-committed"
+          }
+        }
+      }
+    ]
+  }
+}
