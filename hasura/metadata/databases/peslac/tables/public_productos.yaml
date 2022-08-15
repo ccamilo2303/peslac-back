@@ -1,0 +1,39 @@
+table:
+  schema: public
+  name: productos
+object_relationships:
+  - name: lineas_producto
+    using:
+      foreign_key_constraint_on: id_linea
+  - name: proveedor
+    using:
+      foreign_key_constraint_on: id_proveedor
+  - name: transformacion
+    using:
+      foreign_key_constraint_on:
+        column: id_producto_destino
+        table:
+          schema: public
+          name: transformaciones
+array_relationships:
+  - name: config_descuentos
+    using:
+      foreign_key_constraint_on:
+        column: id_producto
+        table:
+          schema: public
+          name: config_descuentos
+  - name: detalle_lista_precios
+    using:
+      foreign_key_constraint_on:
+        column: id_producto
+        table:
+          schema: public
+          name: detalle_lista_precios
+  - name: paquetes
+    using:
+      foreign_key_constraint_on:
+        column: id_producto
+        table:
+          schema: public
+          name: paquetes

@@ -1,0 +1,10 @@
+table:
+  schema: public
+  name: historial_devoluciones_salidas_productos
+object_relationships:
+  - name: ordene
+    using:
+      foreign_key_constraint_on: id_orden
+  - name: producto
+    using:
+      foreign_key_constraint_on: id_producto

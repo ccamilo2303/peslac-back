@@ -5,12 +5,13 @@ services:
     restart: always
     volumes:
     - db_data:/var/lib/postgresql/data
+    - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     environment:
       POSTGRES_PASSWORD: postgrespassword
     ports:
       - "127.0.0.1:5432:5432"
   graphql-engine:
-    image: hasura/graphql-engine:v2.8.1
+    image: hasura/graphql-engine:v2.8.0-beta.1.cli-migrations-v3
     ports:
     - "8080:8080"
     depends_on:
@@ -28,5 +29,8 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
+    volumes:
+      - ./hasura/metadata:/hasura-metadata
 volumes:
   db_data:

@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: clientes
+object_relationships:
+  - name: lista_precio
+    using:
+      foreign_key_constraint_on: id_lista_precios

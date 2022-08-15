@@ -1,0 +1,13 @@
+table:
+  schema: public
+  name: compras
+object_relationships:
+  - name: estados_compra
+    using:
+      foreign_key_constraint_on: id_estado_compra
+  - name: ordene
+    using:
+      foreign_key_constraint_on: id_orden
+  - name: proveedore
+    using:
+      foreign_key_constraint_on: id_proveedor

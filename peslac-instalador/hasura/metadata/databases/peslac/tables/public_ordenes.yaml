@@ -1,0 +1,41 @@
+table:
+  schema: public
+  name: ordenes
+object_relationships:
+  - name: cliente
+    using:
+      foreign_key_constraint_on: id_cliente
+  - name: condiciones_pago
+    using:
+      foreign_key_constraint_on: id_condicion_pago
+  - name: metodos_pago
+    using:
+      foreign_key_constraint_on: id_metodo_pago
+  - name: tipo_ventum
+    using:
+      foreign_key_constraint_on: id_tipo_venta
+  - name: usuario
+    using:
+      foreign_key_constraint_on: id_usuario
+array_relationships:
+  - name: compras
+    using:
+      foreign_key_constraint_on:
+        column: id_orden
+        table:
+          schema: public
+          name: compras
+  - name: detalle_ordenes
+    using:
+      foreign_key_constraint_on:
+        column: id_venta
+        table:
+          schema: public
+          name: detalle_ordenes
+  - name: ventas
+    using:
+      foreign_key_constraint_on:
+        column: id_orden
+        table:
+          schema: public
+          name: ventas

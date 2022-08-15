@@ -1,0 +1,3 @@
+table:
+  schema: public
+  name: vis_informe_ventas

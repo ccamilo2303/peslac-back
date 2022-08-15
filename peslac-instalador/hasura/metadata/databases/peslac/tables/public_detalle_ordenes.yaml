@@ -1,0 +1,10 @@
+table:
+  schema: public
+  name: detalle_ordenes
+object_relationships:
+  - name: ordene
+    using:
+      foreign_key_constraint_on: id_venta
+  - name: producto
+    using:
+      foreign_key_constraint_on: id_producto

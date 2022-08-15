@@ -1,0 +1,15 @@
+table:
+  schema: public
+  name: transformaciones
+object_relationships:
+  - name: producto
+    using:
+      foreign_key_constraint_on: id_producto_destino
+array_relationships:
+  - name: detalle_transformaciones
+    using:
+      foreign_key_constraint_on:
+        column: id_transformacion
+        table:
+          schema: public
+          name: detalle_transformaciones

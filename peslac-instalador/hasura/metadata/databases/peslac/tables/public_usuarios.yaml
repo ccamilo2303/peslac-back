@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: usuarios
+object_relationships:
+  - name: tipos_usuario
+    using:
+      foreign_key_constraint_on: id_tipo_usuario

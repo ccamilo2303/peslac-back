@@ -1,0 +1,15 @@
+table:
+  schema: public
+  name: paquetes
+object_relationships:
+  - name: producto
+    using:
+      foreign_key_constraint_on: id_producto
+array_relationships:
+  - name: configuracion_paquetes
+    using:
+      foreign_key_constraint_on:
+        column: id_paquete
+        table:
+          schema: public
+          name: configuracion_paquetes

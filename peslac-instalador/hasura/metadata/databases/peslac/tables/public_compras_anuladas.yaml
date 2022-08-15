@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: compras_anuladas
+object_relationships:
+  - name: compra
+    using:
+      foreign_key_constraint_on: id_compra
